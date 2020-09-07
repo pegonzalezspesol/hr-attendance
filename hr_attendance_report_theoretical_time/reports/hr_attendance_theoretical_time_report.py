@@ -199,22 +199,14 @@ CREATE or REPLACE VIEW %s as (
         if not employee.resource_id.calendar_id:
             return 0
         tz = employee.resource_id.calendar_id.tz
-        return employee._get_leave_days_data(
+        hours = employee._get_leave_days_data(
             datetime.combine(date, time(0, 0, 0, 0, tzinfo=pytz.timezone(tz))),
             datetime.combine(
-                date, time(23, 59, 59, 99999, tzinfo=pytz.timezone(tz))),
-            # Pass this domain for excluding leaves whose type is included in
-            # theoretical hours
-            # domain=[
-            #     "|",
-            #     ("holiday_id", "=", False),
-            #     ("holiday_id.holiday_status_id.include_in_theoretical", "=",
-            #      False),
-            # ],
+                date, time(23, 59, 59, 99999, tzinfo=pytz.timezone(tz)))
         )[
             "hours"
         ]
-
+        return hours if hours >= 0 else 0
 
     @api.model
     def read_group(
