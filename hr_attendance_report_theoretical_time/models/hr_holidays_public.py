@@ -29,6 +29,7 @@ class HrHolidaysPublicLine(models.Model):
             ]
         )
         records._compute_theoretical_hours()
+        records._compute_time_off()
 
     @api.model_create_multi
     def create(self, vals_list):

@@ -43,3 +43,4 @@ class HrLeave(models.Model):
                 ]
             )
         to_recompute._compute_theoretical_hours()
+        to_recompute._compute_time_off()
